@@ -36,7 +36,7 @@
   <main>
     <!-- Sección Home -->
     <section id="home" class="seccion">
-      <h2>Vehículos Disponibles</h2>
+      <!-- <h2>Vehículos Disponibles</h2> -->
       <div id="lista-vehiculos">Cargando vehículos...</div>
     </section>
 
@@ -93,10 +93,13 @@ firebase.initializeApp(firebaseConfig);
             html += `
               <div class="vehiculo">
                 <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
+                <div class="info-vehiculo">
                 <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
                 <p class="descripcion-vehiculo">${vehiculo.description}</p>
-                <p class="precio-vehiculo">💵 Precio: $${vehiculo.precio} / ${vehiculo.minutos} min</p>
+                <p class="precio-vehiculo">Precio: $${vehiculo.precio} / ${vehiculo.minutos} min</p>
                 <button class="btn-primary">Alquilar</button>
+                </div>
+                
               </div>
             `;
           });
