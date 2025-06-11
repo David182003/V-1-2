@@ -102,8 +102,15 @@ body {
     background-color: rgb(255, 255, 255);
     margin-top: 0px;
 }
-.descripcion-vehiculo ,.precio-vehiculo{
+.descripcion-vehiculo {
     background-color: rgb(255, 255, 255);
     height: 5vh;
     padding: 2%;
+}
+.precio-vehiculo{
+    margin: 0% 2% 4% 2%;
+    border-radius: 20px;
+    padding: 2%;
+    font-size: 13px;
+    background-color: rgba(0, 255, 13, 0.151);
 }
