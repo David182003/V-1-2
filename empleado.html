@@ -8,6 +8,41 @@
     <link rel="stylesheet" href="public/empleado.css">
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <style>
+  /* Modal styles */
+  .modal-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 2em 1.5em;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px #0003;
+    min-width: 250px;
+    text-align: center;
+  }
+  .modal-content select, .modal-content button {
+    margin-top: 1em;
+  }
+  .cronometro-container{
+    background-color: rgba(0, 0, 0, 0.651);
+    font-size: 12px;
+    display: flex;
+    margin-top: -35vh;
+    height: 22vh;
+    position: absolute;
+    text-align: center;
+    border-radius: 12px;
+    padding: 10% 2%;
+    width: 45%;
+  }
+</style>
 </head>
 <body>
   <header>
@@ -44,7 +79,7 @@
 
     <!-- Sección Aplicaciones -->
     <section id="aplicaciones" class="seccion" style="display: none;">
-      <h2>Aplicaciones</h2>
+      <h2>Ventas</h2>
       <p>Otras funcionalidades para empleados aquí.</p>
     </section>
   </main>
@@ -78,6 +113,95 @@ firebase.initializeApp(firebaseConfig);
       });
     }
 
+    function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
+      // Crear modal
+      const modal = document.createElement('div');
+      modal.className = 'modal-bg';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <h3>Selecciona método de pago</h3>
+          <select id="metodo-pago-modal">
+            <option value="yape">Yape</option>
+            <option value="efectivo">Efectivo</option>
+          </select>
+          <br>
+          <button id="confirmar-pago-modal">Confirmar</button>
+          <br>
+          <button id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      document.getElementById('confirmar-pago-modal').onclick = function() {
+        const metodoPago = document.getElementById('metodo-pago-modal').value;
+        document.body.removeChild(modal);
+        mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago);
+      };
+      document.getElementById('cerrar-modal').onclick = function() {
+        document.body.removeChild(modal);
+      };
+    }
+
+    function mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago) {
+      const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
+      let tiempo = minutos * 60;
+      const ahora = Date.now();
+      const fin = ahora + tiempo * 1000;
+
+      // Guardar en localStorage
+      localStorage.setItem(`cronometro_${vehiculoId}`, JSON.stringify({
+        fin, vehiculoId, minutos, precio, nombreVehiculo, metodoPago
+      }));
+
+      iniciarCronometro(vehiculoId);
+    }
+
+    function iniciarCronometro(vehiculoId) {
+      const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
+      const data = JSON.parse(localStorage.getItem(`cronometro_${vehiculoId}`));
+      if (!data) return;
+
+      cronometroDiv.style.display = 'block';
+
+      function tick() {
+        const ahora = Date.now();
+        let tiempo = Math.floor((data.fin - ahora) / 1000);
+        if (tiempo < 0) tiempo = 0;
+        const min = Math.floor(tiempo / 60);
+        const seg = tiempo % 60;
+        cronometroDiv.textContent = ` ${min}:${seg < 10 ? '0' : ''}${seg}`;
+        if (tiempo <= 0) {
+          clearInterval(window[`intervalo_${vehiculoId}`]);
+          cronometroDiv.textContent = "¡Alquiler finalizado!";
+          guardarVenta(data.vehiculoId, data.metodoPago, data.precio, data.nombreVehiculo, data.minutos);
+          localStorage.removeItem(`cronometro_${vehiculoId}`);
+          setTimeout(() => {
+            cronometroDiv.textContent = '';
+            cronometroDiv.style.display = 'none';
+          }, 2000);
+        }
+      }
+
+      if (window[`intervalo_${vehiculoId}`]) clearInterval(window[`intervalo_${vehiculoId}`]);
+      window[`intervalo_${vehiculoId}`] = setInterval(tick, 1000);
+      tick();
+    }
+
+    function guardarVenta(vehiculoId, metodoPago, precio, nombreVehiculo, minutos) {
+      db.collection('ventas').add({
+        vehiculoId,
+        nombreVehiculo,
+        metodoPago,
+        precio,
+        minutos,
+        fecha: new Date()
+      }).then(() => {
+        alert('Venta guardada correctamente');
+      }).catch(err => {
+        alert('Error al guardar la venta: ' + err.message);
+      });
+    }
+
     function cargarVehiculos() {
       const lista = document.getElementById('lista-vehiculos');
       lista.innerHTML = 'Cargando...';
@@ -96,17 +220,24 @@ firebase.initializeApp(firebaseConfig);
               <div class="vehiculo">
                 <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
                 <div class="info-vehiculo">
-                <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
-                <p class="descripcion-vehiculo">${vehiculo.description}</p>
-                <p class="precio-vehiculo">Precio: $${vehiculo.precio} / ${vehiculo.minutos} min</p>
-                <button class="btn-primary"><i class='bx bxs-hot'></i>Alquilar</button>
+                  <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
+                  <p class="descripcion-vehiculo">${vehiculo.description}</p>
+                  <p class="precio-vehiculo">Precio: S/ ${vehiculo.precio} / ${vehiculo.minutos} min</p>
+                  <div class="cronometro-container" id="cronometro-container-${doc.id}" style="display:none; font-weight:bold; font-size:30px; color: red; margin-bottom:8px;"></div>
+                  <button class="btn-primary" onclick="mostrarFormularioPago('${doc.id}', ${vehiculo.minutos}, ${vehiculo.precio}, '${vehiculo.name}')"><i class='bx bxs-hot'></i>Alquilar</button>
                 </div>
-                
               </div>
             `;
           });
 
           lista.innerHTML = html;
+
+          // Reanudar cronómetros activos
+          snapshot.forEach(doc => {
+            if (localStorage.getItem(`cronometro_${doc.id}`)) {
+              iniciarCronometro(doc.id);
+            }
+          });
         })
         .catch(error => {
           lista.innerHTML = `<p>Error cargando vehículos: ${error.message}</p>`;
