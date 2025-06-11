@@ -6,6 +6,8 @@
   <title>Panel Empleado</title>
   <link rel="stylesheet" href="public/ui.css">
     <link rel="stylesheet" href="public/empleado.css">
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
   <header>
@@ -97,7 +99,7 @@ firebase.initializeApp(firebaseConfig);
                 <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
                 <p class="descripcion-vehiculo">${vehiculo.description}</p>
                 <p class="precio-vehiculo">Precio: $${vehiculo.precio} / ${vehiculo.minutos} min</p>
-                <button class="btn-primary">Alquilar</button>
+                <button class="btn-primary"><i class='bx bxs-hot'></i>Alquilar</button>
                 </div>
                 
               </div>

@@ -1,8 +1,16 @@
+:root{
+    --background: #ff4800; /* Green */
+    --secondary-color: #f44336; /* Red */
+    --background-color: #f0f0f0; /* Light Gray */
+    --text-color: #333; /* Dark Gray */
+    --background-white:#ffffff; /* White */
+}
 .btn-primary{
-    background-color: black;
+    background-color: var(--background);
     width: 96%;
     color: white;
-    padding: 4%;
+    border: none;
+    padding: 5%;
     border-radius: 8px;
     margin-left: 2%;
     margin-right: 2%;

@@ -6,7 +6,7 @@
 body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #f4f4f4;
+      background-color: var(--background-white);
     }
 
     header {
@@ -40,7 +40,7 @@ body {
 
 
     .vehiculo {
-      background: white;
+      background: var(--background-white);
       border: 1px solid #ddd;
       border-radius: 10px;
       height: auto;
@@ -62,7 +62,7 @@ body {
 
     .seccion {
       display: none;
-      background-color: rgb(211, 211, 211);
+      background-color: var(--background-white);;
       width: 100%;
       height: auto;
     }
