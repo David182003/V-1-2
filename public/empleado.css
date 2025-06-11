@@ -1,0 +1,90 @@
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #ffffff;
+      color: white;
+      padding: 1em;
+      box-shadow: 0 0 10px rgba(0, 26, 255, 0.356);
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      display: flex;
+      padding: 0px;
+      position: fixed;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    nav button {
+      margin-left: 1em;
+      padding: 0.5em 1em;
+      border: none;
+      background-color: white;
+      color: #000000;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+    .vehiculo {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      height: auto;
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      display: fl;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .vehiculo img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+    }
+
+    .seccion {
+      display: none;
+      background-color: rgb(211, 211, 211);
+      width: 100%;
+      height: auto;
+    }
+#lista-vehiculos{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2%;
+    padding: 2%;
+}
+    #home {
+      display: block;
+    }
+    .img-home , .img-app{
+        width: 30px;
+        height: 30px;
+    }
+    .app-options {
+      background-color: rgb(185, 162, 162);
+    }
+    .p-menu {
+      margin: 0px;
+    }
+    .img-producto{
+        width: 100px;
+        height: 100px;
+    }
+.nombre-vehiculo{
+    font-size: 15px;
+    height: 5vh;    
+    background-color: rgb(30, 255, 0);
+}

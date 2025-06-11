@@ -1,0 +1,9 @@
+.btn-primary{
+    background-color: black;
+    width: 96%;
+    color: white;
+    padding: 4%;
+    border-radius: 8px;
+    margin-left: 2%;
+    margin-right: 2%;
+}

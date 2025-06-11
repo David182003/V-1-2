@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Empleado</title>
+  <link rel="stylesheet" href="public/ui.css">
+    <link rel="stylesheet" href="public/empleado.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <button onclick="mostrarSeccion('home')"> 
+        <div class="home-option">
+            <img class="img-home" src="media/Home.webp" alt="">
+        </div>
+        <p class="p-menu">Home</p>
+    </button>
+      <button onclick="mostrarSeccion('aplicaciones')">
+        <div class="app-option">
+            <img class="img-app" src="media/Ventas.webp" alt="">
+        </div>
+             <p class="p-menu">Dashboard</p>
+        </button>
+      <a href="index.html">
+        <button onclick="logout()">
+             <div class="app-option">
+            <img class="img-app" src="media/exit.webp" alt="">
+        </div>
+            <p class="p-menu">Cerrar Sesión</p>
+        </button>
+    </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Sección Home -->
+    <section id="home" class="seccion">
+      <h2>Vehículos Disponibles</h2>
+      <div id="lista-vehiculos">Cargando vehículos...</div>
+    </section>
+
+    <!-- Sección Aplicaciones -->
+    <section id="aplicaciones" class="seccion" style="display: none;">
+      <h2>Aplicaciones</h2>
+      <p>Otras funcionalidades para empleados aquí.</p>
+    </section>
+  </main>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyCwt9dyCf5iF13R2nhar6F2pKIUkT3Om7Q",
+  authDomain: "paguinasweb-14611.firebaseapp.com",
+  projectId: "paguinasweb-14611",
+  storageBucket: "paguinasweb-14611.firebasestorage.app",
+  messagingSenderId: "1083919701171",
+  appId: "1:1083919701171:web:89d0063a1f9e6e357c4cc6"
+};
+
+firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function mostrarSeccion(id) {
+      document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = 'index.html';
+      });
+    }
+
+    function cargarVehiculos() {
+      const lista = document.getElementById('lista-vehiculos');
+      lista.innerHTML = 'Cargando...';
+
+      db.collection('vehiculos').where("status", "==", "available").get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            lista.innerHTML = '<p>No hay vehículos disponibles.</p>';
+            return;
+          }
+
+          let html = '';
+          snapshot.forEach(doc => {
+            const vehiculo = doc.data();
+            html += `
+              <div class="vehiculo">
+                <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
+                <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
+                <p class="descripcion-vehiculo">${vehiculo.description}</p>
+                <p class="precio-vehiculo">💵 Precio: $${vehiculo.precio} / ${vehiculo.minutos} min</p>
+                <button class="btn-primary">Alquilar</button>
+              </div>
+            `;
+          });
+
+          lista.innerHTML = html;
+        })
+        .catch(error => {
+          lista.innerHTML = `<p>Error cargando vehículos: ${error.message}</p>`;
+        });
+    }
+    cargarVehiculos();
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = 'index.html';
+      } else {
+        cargarVehiculos();
+      }
+    });
+
+  </script>
+</body>
+</html>
