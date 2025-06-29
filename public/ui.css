@@ -13,6 +13,7 @@
     --text-black-color: #000; /* Black */
     --text-secondary-color: #000000; /* Light Gray */
     --font-family: 'Arial', sans-serif; /* Default font */
+    --yape:#fda692;
 }   
 .btn-primary{
     background-color: var(--background);

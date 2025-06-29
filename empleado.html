@@ -324,13 +324,13 @@ function calcularVentasHoyPorMetodo() {
       if (graficoMetodoHoy) graficoMetodoHoy.destroy();
 
       graficoMetodoHoy = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: ['Yape', 'Efectivo'],
           datasets: [{
             label: 'Ventas',
             data: [totalYape, totalEfectivo],
-            backgroundColor: ['#4caf50', '#2196f3'],
+            backgroundColor: ['#fda692', '#ff4800'],
             borderColor: '#ffffff',
             borderWidth: 2,
             hoverOffset: 10
