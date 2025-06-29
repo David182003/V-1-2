@@ -62,8 +62,9 @@ body {
 
     .seccion {
       display: none;
-      background-color: var(--background-white);;
-      width: 100%;
+      background-color: var(---white);;
+      width:auto;
+      margin-bottom: 20%;
       height: auto;
     }
 #lista-vehiculos{

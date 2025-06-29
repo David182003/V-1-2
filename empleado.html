@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="public/empleado.css">
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
   /* Modal styles */
   .modal-bg {
@@ -77,11 +79,28 @@
       <div id="lista-vehiculos">Cargando vehículos...</div>
     </section>
 
-    <!-- Sección Aplicaciones -->
-    <section id="aplicaciones" class="seccion" style="display: none;">
-      <h2>Ventas</h2>
-      <p>Otras funcionalidades para empleados aquí.</p>
-    </section>
+ <section id="aplicaciones" class="seccion" style="display: none;">
+  <h2>Ventas</h2>
+
+  
+  
+
+
+
+  <p id="ventas-dia-total" style="margin-top:10px; font-weight:bold;">Total vendido ese día: S/ 0.00</p>
+  <div id="ventas-dia-lista">Cargando ventas...</div>
+
+ <h3 style="margin-top: 20px;">Totales de Hoy por Método de Pago</h3>
+<p id="total-yape-hoy" style="font-weight: bold;">Ventas en Yape (hoy): S/ 0.00</p>
+<p id="total-efectivo-hoy" style="font-weight: bold;">Ventas en Efectivo (hoy): S/ 0.00</p>
+<canvas id="grafico-metodo-hoy" width="400" height="200"></canvas>
+
+</section>
+
+
+
+
+
   </main>
 
   <!-- Firebase SDK -->
@@ -105,8 +124,18 @@ firebase.initializeApp(firebaseConfig);
     function mostrarSeccion(id) {
       document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
       document.getElementById(id).style.display = 'block';
-    }
+   if (id === 'aplicaciones') {
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear();
+  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dd = String(hoy.getDate()).padStart(2, '0');
+  const fechaActual = `${yyyy}-${mm}-${dd}`;
 
+  cargarVentasPorFecha(fechaActual);
+  calcularVentasHoyPorMetodo();
+}
+}
+    
     function logout() {
       auth.signOut().then(() => {
         window.location.href = 'index.html';
@@ -202,6 +231,135 @@ firebase.initializeApp(firebaseConfig);
       });
     }
 
+function cargarVentasPorFecha(fechaStr) {
+  const contenedorVentas = document.getElementById('ventas-dia-lista');
+  const totalTexto = document.getElementById('ventas-dia-total');
+  contenedorVentas.innerHTML = 'Cargando ventas...';
+  totalTexto.textContent = 'Total vendido ese día: S/ 0.00';
+
+  const [anio, mes, dia] = fechaStr.split('-').map(Number);
+
+  // Creamos rangos de la fecha seleccionada (00:00 a 23:59)
+  const desde = new Date(anio, mes - 1, dia, 0, 0, 0);
+  const hasta = new Date(anio, mes - 1, dia, 23, 59, 59);
+
+  // Convertimos a Timestamp de Firebase
+  const Timestamp = firebase.firestore.Timestamp;
+  const desdeTS = Timestamp.fromDate(desde);
+  const hastaTS = Timestamp.fromDate(hasta);
+
+  db.collection('ventas')
+    .where('fecha', '>=', desdeTS)
+    .where('fecha', '<=', hastaTS)
+    .orderBy('fecha', 'asc')
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        contenedorVentas.innerHTML = '<p>No hay ventas en esa fecha.</p>';
+        return;
+      }
+
+      let html = '<ul style="list-style:none; padding:0;">';
+      let total = 0;
+
+      snapshot.forEach(doc => {
+        const venta = doc.data();
+        const fecha = new Date(venta.fecha.seconds * 1000);
+        total += parseFloat(venta.precio);
+
+        html += `
+          <li style="margin-bottom:1em; padding:1em; border:1px solid #ccc; border-radius:8px;">
+            <strong>Vehículo:</strong> ${venta.nombreVehiculo}<br>
+            <strong>Precio:</strong> S/ ${venta.precio}<br>
+            <strong>Método de pago:</strong> ${venta.metodoPago}<br>
+            <strong>Fecha:</strong> ${fecha.toLocaleString()}
+          </li>
+        `;
+      });
+
+      html += '</ul>';
+      contenedorVentas.innerHTML = html;
+      totalTexto.textContent = `Total vendido ese día: S/ ${total.toFixed(2)}`;
+    })
+    .catch(err => {
+      contenedorVentas.innerHTML = `<p>Error: ${err.message}</p>`;
+    });
+}
+
+let graficoMetodoHoy; // para manejar la gráfica
+
+function calcularVentasHoyPorMetodo() {
+  const yapeTexto = document.getElementById('total-yape-hoy');
+  const efectivoTexto = document.getElementById('total-efectivo-hoy');
+
+  // Obtener fecha de hoy en rango 00:00:00 a 23:59:59
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear();
+  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dd = String(hoy.getDate()).padStart(2, '0');
+  const fechaStr = `${yyyy}-${mm}-${dd}`;
+  
+  const [anio, mes, dia] = fechaStr.split('-').map(Number);
+  const desde = new Date(anio, mes - 1, dia, 0, 0, 0);
+  const hasta = new Date(anio, mes - 1, dia, 23, 59, 59);
+
+  const desdeTS = firebase.firestore.Timestamp.fromDate(desde);
+  const hastaTS = firebase.firestore.Timestamp.fromDate(hasta);
+
+  db.collection('ventas')
+    .where('fecha', '>=', desdeTS)
+    .where('fecha', '<=', hastaTS)
+    .get()
+    .then(snapshot => {
+      let totalYape = 0;
+      let totalEfectivo = 0;
+
+      snapshot.forEach(doc => {
+        const venta = doc.data();
+        const metodo = venta.metodoPago.toLowerCase();
+        const monto = parseFloat(venta.precio);
+
+        if (metodo === 'yape') totalYape += monto;
+        if (metodo === 'efectivo') totalEfectivo += monto;
+      });
+
+      yapeTexto.textContent = `Ventas en Yape (hoy): S/ ${totalYape.toFixed(2)}`;
+      efectivoTexto.textContent = `Ventas en Efectivo (hoy): S/ ${totalEfectivo.toFixed(2)}`;
+
+      // Mostrar gráfica también
+      const ctx = document.getElementById('grafico-metodo-hoy').getContext('2d');
+      if (graficoMetodoHoy) graficoMetodoHoy.destroy();
+
+      graficoMetodoHoy = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Yape', 'Efectivo'],
+          datasets: [{
+            data: [totalYape, totalEfectivo],
+            backgroundColor: ['#4caf50', '#2196f3'],
+            borderColor: '#fff',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+
+    })
+    .catch(err => {
+      yapeTexto.textContent = 'Error al cargar';
+      efectivoTexto.textContent = 'Error al cargar';
+      console.error('Error al calcular ventas de hoy por método:', err);
+    });
+}
+
+
     function cargarVehiculos() {
       const lista = document.getElementById('lista-vehiculos');
       lista.innerHTML = 'Cargando...';
@@ -251,6 +409,15 @@ firebase.initializeApp(firebaseConfig);
         cargarVehiculos();
       }
     });
+
+ 
+document.getElementById('filtro-fecha').addEventListener('change', function () {
+  const nuevaFecha = this.value;
+  if (nuevaFecha) {
+    cargarVentasPorFecha(nuevaFecha);
+  }
+});
+
 
   </script>
 </body>
