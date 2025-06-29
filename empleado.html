@@ -86,8 +86,8 @@
    <p id="ventas-dia-total" style="text-align: center; margin-bottom: 20px;">Total vendido (Hoy): S/ 0.00</p>
   <canvas id="grafico-metodo-hoy" width="400" height="200"></canvas>
   <div style="margin-top: 20px; text-align: center;">
-    <p id="total-yape-hoy" style="font-weight:bold; color:#4caf50;">Ventas en Yape: S/ 0.00</p>
-    <p id="total-efectivo-hoy" style="font-weight:bold; color:#2196f3;">Ventas en Efectivo: S/ 0.00</p>
+    <p id="total-yape-hoy" style="font-weight:bold; color:#000000;">Ventas en Yape: S/ 0.00</p>
+    <p id="total-efectivo-hoy" style="font-weight:bold; color:#00bd19;">Ventas en Efectivo: S/ 0.00</p>
   </div>
 </div>
 
@@ -265,7 +265,7 @@ function cargarVentasPorFecha(fechaStr) {
         total += parseFloat(venta.precio);
 
         html += `
-          <li style="margin-bottom:1em; padding:1em; border:1px solid #ccc; border-radius:8px;">
+          <li class="li" style="margin-bottom:2px; padding:1em; ">
             <strong>Vehículo:</strong> ${venta.nombreVehiculo}<br>
             <strong>Precio:</strong> S/ ${venta.precio}<br>
             <strong>Método de pago:</strong> ${venta.metodoPago}<br>
