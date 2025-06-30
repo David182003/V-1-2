@@ -6,6 +6,72 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hola Jorge</h1>
+    <h1>Administrador - Agregar Vehículo</h1>
+
+    <form id="form-agregar-vehiculo" style="max-width: 400px;">
+        <label>Nombre:</label><br>
+        <input type="text" id="nombre" required><br><br>
+
+        <label>Descripción:</label><br>
+        <textarea id="descripcion" required></textarea><br><br>
+
+        <label>Precio (S/):</label><br>
+        <input type="number" id="precio" step="0.01" required><br><br>
+
+        <label>Minutos:</label><br>
+        <input type="number" id="minutos" required><br><br>
+
+        <label>URL de imagen:</label><br>
+        <input type="text" id="imagen" required><br><br>
+
+        <button type="submit">Agregar Vehículo</button>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Configura Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwt9dyCf5iF13R2nhar6F2pKIUkT3Om7Q",
+            authDomain: "paguinasweb-14611.firebaseapp.com",
+            projectId: "paguinasweb-14611",
+            storageBucket: "paguinasweb-14611.firebasestorage.app",
+            messagingSenderId: "1083919701171",
+            appId: "1:1083919701171:web:89d0063a1f9e6e357c4cc6"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Manejar envío del formulario
+        document.getElementById('form-agregar-vehiculo').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const precio = parseFloat(document.getElementById('precio').value);
+            const minutos = parseInt(document.getElementById('minutos').value);
+            const imagen = document.getElementById('imagen').value;
+
+            db.collection('vehiculos').add({
+                name: nombre,
+                description: descripcion,
+                precio: precio,
+                minutos: minutos,
+                imageUrl: imagen,
+                status: 'available'
+            }).then(() => {
+                document.getElementById('mensaje').textContent = '✅ Vehículo agregado correctamente';
+                document.getElementById('form-agregar-vehiculo').reset();
+            }).catch(err => {
+                document.getElementById('mensaje').textContent = '❌ Error: ' + err.message;
+            });
+        });
+    </script>
 </body>
+
 </html>

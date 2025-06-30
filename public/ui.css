@@ -6,9 +6,9 @@
     --background-white:#ffffff; /* White */
     --background-black:#000;
     --background-gray: #f5f5f5; /* Light Gray */
-    --border-color: #ddd; /* Light Gray */
+    --border-color: #e9e6e6; /* Light Gray */
     --primary-color: #00b306; /* Green */
-    --text-color: #333; /* Dark Gray */
+    --text-color: #a0a0a0; /* Dark Gray */
     --text-white-color: #ffffff; /* White */
     --text-black-color: #000; /* Black */
     --text-secondary-color: #000000; /* Light Gray */
@@ -16,10 +16,9 @@
     --yape:#fda692;
 }   
 .btn-primary{
-    background-color: var(--background);
     width: 96%;
-    color: white;
-    border: none;
+    color:var(--background);
+    border: 1px solid var(--background);
     padding: 5%;
     border-radius: 8px;
     margin-left: 2%;
@@ -51,4 +50,22 @@
 .li{
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(240, 240, 240);
+}
+.container-vehiculos{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    pad: 0% 2%;
+    align-items: center;
+}
+.titulo-vehiculos {
+    color: var(--text-color);
+    margin: 2% 2%;
+    width: auto;
+}
+.hr-vehiculos{
+    width:75%;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+.ver-todos{
 }
