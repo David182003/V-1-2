@@ -16,6 +16,7 @@
     --yape:#fda692;
 }   
 .btn-primary{
+    background-color: rgb(248, 235, 235);
     width: 96%;
     color:var(--background);
     border: 1px solid var(--background);
