@@ -144,7 +144,9 @@ body {
 .venta-card:hover {
   transform: translateY(-3px);
 }
-
+.venta-item{
+  display: flex;
+}
 .venta-card strong {
   color: #333;
 }
@@ -153,12 +155,17 @@ body {
   font-weight: bold;
   padding: 4px 8px;
   border-radius: 6px;
-  display: inline-block;
-  margin-top: 0.2em;
-}
+ right: 0px;
+  margin-left: auto;
 
+  display: inline-block;
+  
+}
+.venta-itemm{
+
+}
 .venta-metodo.yape {
-  background-color: #690083;
+  background-color: #610179;
   color: #fff;
 }
 .venta-metodo.efectivo {

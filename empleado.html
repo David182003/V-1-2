@@ -449,10 +449,14 @@ function cargarVentasPorFecha(fechaStr) {
 
        html += `
   <div class="venta-card">
-    <p><strong>Vehículo:</strong> ${venta.nombreVehiculo}</p>
+    <div class="venta-item">
+      <p><strong>Vehículo:</strong> ${venta.nombreVehiculo}</p>
+      <span class="venta-metodo ${venta.metodoPago.toLowerCase()}">${venta.metodoPago}</span></p>
+    </div>
+    <div class="venta-itemm">
     <p><strong>Precio:</strong> S/ ${venta.precio}</p>
-    <p><strong>Método de pago:</strong> <span class="venta-metodo ${venta.metodoPago.toLowerCase()}">${venta.metodoPago}</span></p>
     <p><strong>Fecha:</strong> ${fecha.toLocaleString()}</p>
+    </div>
   </div>
 `;
 
