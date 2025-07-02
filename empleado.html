@@ -83,6 +83,65 @@
     align-items: center;
     justify-content: center;
   }
+  /* ==== Trampolín Section Styles ==== */
+#trampolin {
+  padding: 20px;
+  max-width: 900px;
+
+  margin: auto;
+}
+
+#trampolin h3 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+#trampolin button {
+  background-color:var(--background-btn-font-color);
+  color: var(--background);
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border: 1px solid var(--background);
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#trampolin button:hover {
+  background: #0d3c6a;
+}
+
+#trampolin-cronometros {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+#trampolin-cronometros > div {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 15px;
+  border-left: 5px solid #000000;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+#trampolin-cronometros > div:hover {
+  transform: translateY(-5px);
+}
+
+#trampolin-cronometros p {
+  margin: 6px 0;
+  font-size: 16px;
+  color: #2c3e50;
+}
+
 </style>
 
 </style>
@@ -91,29 +150,41 @@
   <header>
     <nav>
       <button onclick="mostrarSeccion('home')"> 
-        <div class="home-option">
-            <img class="img-home" src="media/Home.webp" alt="">
-        </div>
-        <p class="p-menu">Home</p>
+    <div class="home-option">
+      <img class="img-home" src="media/Home.webp" alt="">
+    </div>
+    <p class="p-menu">Home</p>
+  </button>
+
+  <button onclick="mostrarSeccion('aplicaciones')">
+    <div class="app-option">
+      <img class="img-app" src="media/Ventas.webp" alt="">
+    </div>
+    <p class="p-menu">Ingresos</p>
+  </button>
+
+  <button onclick="mostrarSeccion('trampolin')">
+    <div class="app-option">
+      <img class="img-app" src="media/fuego-3d.png" alt=""> <!-- Usa tu propia imagen aquí -->
+    </div>
+    <p class="p-menu">Trampolín</p>
+  </button>
+
+  <a href="index.html">
+    <button onclick="logout()">
+      <div class="app-option">
+        <img class="img-app" src="media/exit.webp" alt="">
+      </div>
+      <p class="p-menu">Cerrar Sesión</p>
     </button>
-      <button onclick="mostrarSeccion('aplicaciones')">
-        <div class="app-option">
-            <img class="img-app" src="media/Ventas.webp" alt="">
-        </div>
-             <p class="p-menu">Ingresos</p>
-        </button>
-      <a href="index.html">
-        <button onclick="logout()">
-             <div class="app-option">
-            <img class="img-app" src="media/exit.webp" alt="">
-        </div>
-            <p class="p-menu">Cerrar Sesión</p>
-        </button>
-    </a>
+  </a>
     </nav>
   </header>
 
   <main>
+
+
+
     <!-- Sección Home -->
     <section id="home" class="seccion">
       <!-- <h2>Vehículos Disponibles</h2> -->
@@ -125,6 +196,13 @@
       <div id="lista-vehiculos">Cargando vehículos...
       </div>
     </section>
+
+    <section id="trampolin" class="seccion" style="display: none; margin-top: 40px;">
+  <h3>Trampolín</h3>
+  <button onclick="mostrarFormularioTrampolin()">Agregar niño al trampolín</button>
+  <div id="trampolin-cronometros" style="margin-top: 20px;"></div>
+</section>
+
 
  <section id="aplicaciones" class="seccion" style="display: none;">
 
@@ -176,7 +254,23 @@ firebase.initializeApp(firebaseConfig);
 
   cargarVentasPorFecha(fechaActual);
   calcularVentasHoyPorMetodo();
+}// 👇 Si se abre trampolín, recargar cronómetros desde localStorage
+  if (id === 'trampolin') {
+    const contenedor = document.getElementById('trampolin-cronometros');
+    contenedor.innerHTML = ''; // limpiar antes de volver a cargar
+
+    for (let key in localStorage) {
+  if (key.startsWith('trampolin_')) {
+    if (!document.getElementById(key.replace('trampolin_', 'trampolin-'))) {
+      const datos = JSON.parse(localStorage.getItem(key));
+      if (datos && datos.fin > Date.now()) {
+        renderizarCronometroTrampolin(datos);
+      }
+    }
+  }
 }
+
+  }
 }
 
 const multiplicadores = {}; // { vehiculoId: 1, 2, 3 }
@@ -414,13 +508,13 @@ function calcularVentasHoyPorMetodo() {
       if (graficoMetodoHoy) graficoMetodoHoy.destroy();
 
       graficoMetodoHoy = new Chart(ctx, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
           labels: ['Yape', 'Efectivo'],
           datasets: [{
             label: 'Ventas',
             data: [totalYape, totalEfectivo],
-            backgroundColor: ['#fda692', '#ff4800'],
+            backgroundColor: ['#690083', '#009614'],
             borderColor: '#ffffff',
             borderWidth: 2,
             hoverOffset: 10
@@ -518,6 +612,84 @@ function calcularVentasHoyPorMetodo() {
         cargarVehiculos();
       }
     });
+
+    function mostrarFormularioTrampolin() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>Agregar niño al trampolín</h3>
+      <input type="text" id="nombre-nino" placeholder="Nombre del niño" />
+      <br>
+      <select id="metodo-pago-trampolin">
+        <option value="yape">Yape</option>
+        <option value="efectivo">Efectivo</option>
+      </select>
+      <br>
+      <button onclick="iniciarTrampolin()">Iniciar</button>
+      <br>
+      <button onclick="document.body.removeChild(this.parentNode.parentNode)">Cancelar</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function iniciarTrampolin() {
+  const nombre = document.getElementById('nombre-nino').value.trim();
+  const metodoPago = document.getElementById('metodo-pago-trampolin').value;
+
+  if (!nombre) return alert('Ingresa el nombre del niño');
+
+  const id = Date.now(); // ID único
+  const minutos = 1;
+  const precio = 5;
+  const fin = Date.now() + minutos * 60 * 1000;
+
+  const datos = { id, nombre, metodoPago, fin, minutos, precio };
+  localStorage.setItem(`trampolin_${id}`, JSON.stringify(datos));
+
+  document.body.removeChild(document.querySelector('.modal-bg'));
+  renderizarCronometroTrampolin(datos);
+}
+
+function renderizarCronometroTrampolin(datos) {
+  const contenedor = document.getElementById('trampolin-cronometros');
+
+  const div = document.createElement('div');
+  div.id = `trampolin-${datos.id}`;
+  div.style = `
+    background: #fff; padding: 1em; border-radius: 10px; 
+    margin-bottom: 10px; box-shadow: 0 0 10px #ccc;
+  `;
+
+  const tiempoText = document.createElement('p');
+  const nombreText = document.createElement('p');
+  nombreText.textContent = `👦 Niño: ${datos.nombre}`;
+  div.appendChild(nombreText);
+  div.appendChild(tiempoText);
+  contenedor.appendChild(div);
+
+  function tick() {
+    const ahora = Date.now();
+    let restante = Math.floor((datos.fin - ahora) / 1000);
+    if (restante < 0) restante = 0;
+
+    const min = Math.floor(restante / 60);
+    const seg = restante % 60;
+    tiempoText.textContent = `⏱ Tiempo restante: ${min}:${seg < 10 ? '0' : ''}${seg}`;
+
+    if (restante <= 0) {
+      clearInterval(intervalo);
+      tiempoText.textContent = "⏰ Tiempo terminado";
+      guardarVenta('trampolin', datos.metodoPago, datos.precio, `Trampolín - ${datos.nombre}`, datos.minutos);
+      localStorage.removeItem(`trampolin_${datos.id}`);
+      setTimeout(() => div.remove(), 3000);
+    }
+  }
+
+  const intervalo = setInterval(tick, 1000);
+  tick();
+}
 
  
 document.getElementById('filtro-fecha').addEventListener('change', function () {
