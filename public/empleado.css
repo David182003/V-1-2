@@ -132,3 +132,36 @@ body {
     font-family: Arial, sans-serif;
     font-weight: bold;
 }
+.venta-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 10, 151, 0.1);
+  padding: 1em 1.5em;
+  margin-bottom: 2px;
+  transition: transform 0.2s ease;
+  
+}
+.venta-card:hover {
+  transform: translateY(-3px);
+}
+
+.venta-card strong {
+  color: #333;
+}
+
+.venta-metodo {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 0.2em;
+}
+
+.venta-metodo.yape {
+  background-color: #690083;
+  color: #fff;
+}
+.venta-metodo.efectivo {
+  background-color: #009614;
+  color: #fff;
+}

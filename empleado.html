@@ -353,14 +353,15 @@ function cargarVentasPorFecha(fechaStr) {
         const fecha = new Date(venta.fecha.seconds * 1000);
         total += parseFloat(venta.precio);
 
-        html += `
-          <li class="li" style="margin-bottom:2px; padding:1em; ">
-            <strong>Vehículo:</strong> ${venta.nombreVehiculo}<br>
-            <strong>Precio:</strong> S/ ${venta.precio}<br>
-            <strong>Método de pago:</strong> ${venta.metodoPago}<br>
-            <strong>Fecha:</strong> ${fecha.toLocaleString()}
-          </li>
-        `;
+       html += `
+  <div class="venta-card">
+    <p><strong>Vehículo:</strong> ${venta.nombreVehiculo}</p>
+    <p><strong>Precio:</strong> S/ ${venta.precio}</p>
+    <p><strong>Método de pago:</strong> <span class="venta-metodo ${venta.metodoPago.toLowerCase()}">${venta.metodoPago}</span></p>
+    <p><strong>Fecha:</strong> ${fecha.toLocaleString()}</p>
+  </div>
+`;
+
       });
 
       html += '</ul>';
