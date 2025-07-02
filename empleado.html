@@ -464,7 +464,7 @@ function cargarVentasPorFecha(fechaStr) {
 
       html += '</ul>';
       contenedorVentas.innerHTML = html;
-      totalTexto.textContent = `Total vendido ese (Hoy): S/ ${total.toFixed(2)}`;
+      totalTexto.textContent = `Total Generado (Hoy): S/ ${total.toFixed(2)}`;
     })
     .catch(err => {
       contenedorVentas.innerHTML = `<p>Error: ${err.message}</p>`;
@@ -506,13 +506,16 @@ function calcularVentasHoyPorMetodo() {
       });
 
       yapeTexto.textContent = `Ventas en Yape: S/ ${totalYape.toFixed(2)}`;
+      yapeTexto.style.color = '#690083'; // Color Yape
+      yapeTexto.style.marginBottom = '10px';
       efectivoTexto.textContent = `Ventas en Efectivo: S/ ${totalEfectivo.toFixed(2)}`;
+      efectivoTexto.style.color = '#009614'; // Color Efectivo
 
       const ctx = document.getElementById('grafico-metodo-hoy').getContext('2d');
       if (graficoMetodoHoy) graficoMetodoHoy.destroy();
 
       graficoMetodoHoy = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: ['Yape', 'Efectivo'],
           datasets: [{
