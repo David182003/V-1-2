@@ -38,7 +38,7 @@
       width: 160px;
       animation: fadeIn 2s ease-in-out;
       margin-bottom: 20px;
-      filter: drop-shadow(0 0 20px var(--primary));
+      /* filter: drop-shadow(0 0 20px var(--primary)); */
     }
 
     /* Login container layout */

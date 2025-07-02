@@ -33,18 +33,58 @@
   .modal-content select, .modal-content button {
     margin-top: 1em;
   }
-  .cronometro-container{
-    background-color: rgba(0, 0, 0, 0.74);
-    font-size: 12px;
-    display: flex;
-    margin-top: -36vh;
-    height: 23vh;
-    position: absolute;
-    text-align: center;
-    border-radius: 12px 12px 0px 0px;
-    padding: 10% 2%;
-    width: 46%;
+ .cronometro-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;   /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  background-color: rgba(7, 7, 7, 0.65); /* Oscurece el fondo */
+  font-size: 40px;
+  font-weight: bold;
+  color: #ffffff;
+  padding-top: 30%;
+  text-align: center;
+  text-shadow: 0 0 15px white;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+
+.vehiculo {
+  position: relative;
+  overflow: hidden;
+}
+
+
+  .btn-multi {
+    background-color: #ffffff;
+    color: rgb(97, 97, 97);
+    border: 1px solid rgb(197, 198, 248);
+
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
   }
+  .btn-multi:hover {
+    background-color: #c0e3ff;
+  }
+  .btn-multi.active {
+    background-color: #104e87;
+    color: white;
+  }
+  .multiplicador-container{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
 </style>
 </head>
 <body>
@@ -83,7 +123,6 @@
         
       </div>
       <div id="lista-vehiculos">Cargando vehículos...
-        
       </div>
     </section>
 
@@ -139,6 +178,21 @@ firebase.initializeApp(firebaseConfig);
   calcularVentasHoyPorMetodo();
 }
 }
+
+const multiplicadores = {}; // { vehiculoId: 1, 2, 3 }
+
+function setMultiplicador(vehiculoId, valor) {
+  multiplicadores[vehiculoId] = valor;
+
+  // Estilo visual: marcar botón activo
+  const botones = document.querySelectorAll(`.btn-multi[data-id="${vehiculoId}"]`);
+  botones.forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.dataset.valor) === valor) {
+      btn.classList.add('active');
+    }
+  });
+}
     
     function logout() {
       auth.signOut().then(() => {
@@ -165,15 +219,22 @@ firebase.initializeApp(firebaseConfig);
       `;
       document.body.appendChild(modal);
 
-      document.getElementById('confirmar-pago-modal').onclick = function() {
-        const metodoPago = document.getElementById('metodo-pago-modal').value;
-        document.body.removeChild(modal);
-        mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago);
-      };
-      document.getElementById('cerrar-modal').onclick = function() {
-        document.body.removeChild(modal);
-      };
-    }
+     document.getElementById('confirmar-pago-modal').onclick = function() {
+  const metodoPago = document.getElementById('metodo-pago-modal').value;
+  document.body.removeChild(modal);
+
+  // Obtener multiplicador seleccionado
+  const multi = multiplicadores[vehiculoId] || 1;
+  const minutosMultiplicados = minutos * multi;
+  const precioMultiplicado = precio * multi;
+
+  mostrarCronometro(vehiculoId, minutosMultiplicados, precioMultiplicado, nombreVehiculo, metodoPago);
+  };
+
+  document.getElementById('cerrar-modal').onclick = function() {
+    document.body.removeChild(modal);
+  };
+}
 
     function mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago) {
       const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
@@ -197,23 +258,44 @@ firebase.initializeApp(firebaseConfig);
       cronometroDiv.style.display = 'block';
 
       function tick() {
-        const ahora = Date.now();
-        let tiempo = Math.floor((data.fin - ahora) / 1000);
-        if (tiempo < 0) tiempo = 0;
-        const min = Math.floor(tiempo / 60);
-        const seg = tiempo % 60;
-        cronometroDiv.textContent = ` ${min}:${seg < 10 ? '0' : ''}${seg}`;
-        if (tiempo <= 0) {
-          clearInterval(window[`intervalo_${vehiculoId}`]);
-          cronometroDiv.textContent = "¡Alquiler finalizado!";
-          guardarVenta(data.vehiculoId, data.metodoPago, data.precio, data.nombreVehiculo, data.minutos);
-          localStorage.removeItem(`cronometro_${vehiculoId}`);
-          setTimeout(() => {
-            cronometroDiv.textContent = '';
-            cronometroDiv.style.display = 'none';
-          }, 2000);
-        }
-      }
+  const ahora = Date.now();
+  let tiempoRestante = Math.floor((data.fin - ahora) / 1000);
+  if (tiempoRestante < 0) tiempoRestante = 0;
+
+  const tiempoTotal = data.minutos * 60;
+  const porcentaje = (tiempoRestante / tiempoTotal) * 100;
+
+  const min = Math.floor(tiempoRestante / 60);
+  const seg = tiempoRestante % 60;
+  cronometroDiv.textContent = ` ${min}:${seg < 10 ? '0' : ''}${seg}`;
+
+  // Cambiar color y aplicar efecto glow según el porcentaje
+if (porcentaje >= 70) {
+  cronometroDiv.style.color = '#2196F3'; // Azul
+  cronometroDiv.style.textShadow = '0 0 10px #2196F3, 0 0 20px #2196F3, 0 0 30px #2196F3';
+} else if (porcentaje >= 30) {
+  cronometroDiv.style.color = '#FFEB3B'; // Amarillo
+  cronometroDiv.style.textShadow = '0 0 10px #FFEB3B, 0 0 20px #FFEB3B, 0 0 30px #FFEB3B';
+} else {
+  cronometroDiv.style.color = '#f44336'; // Rojo
+  cronometroDiv.style.textShadow = '0 0 10px #f44336, 0 0 20px #f44336, 0 0 30px #f44336';
+}
+
+
+  if (tiempoRestante <= 0) {
+    clearInterval(window[`intervalo_${vehiculoId}`]);
+    cronometroDiv.textContent = "¡Alquiler finalizado!";
+    cronometroDiv.style.color = "#4CAF50"; // Verde al finalizar
+    guardarVenta(data.vehiculoId, data.metodoPago, data.precio, data.nombreVehiculo, data.minutos);
+    localStorage.removeItem(`cronometro_${vehiculoId}`);
+
+    setTimeout(() => {
+      cronometroDiv.textContent = '';
+      cronometroDiv.style.display = 'none';
+    }, 2000);
+  }
+}
+
 
       if (window[`intervalo_${vehiculoId}`]) clearInterval(window[`intervalo_${vehiculoId}`]);
       window[`intervalo_${vehiculoId}`] = setInterval(tick, 1000);
@@ -391,17 +473,27 @@ function calcularVentasHoyPorMetodo() {
           snapshot.forEach(doc => {
             const vehiculo = doc.data();
             html += `
-              <div class="vehiculo">
-                <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
-                <div class="info-vehiculo">
-                  <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
-                  <p class="descripcion-vehiculo">${vehiculo.description}</p>
-                  <p class="precio-vehiculo">Precio: S/ ${vehiculo.precio} / ${vehiculo.minutos} min</p>
-                  <div class="cronometro-container" id="cronometro-container-${doc.id}" style="display:none; font-weight:bold; font-size:30px; color: red; margin-bottom:8px;"></div>
-                  <button class="btn-primary" onclick="mostrarFormularioPago('${doc.id}', ${vehiculo.minutos}, ${vehiculo.precio}, '${vehiculo.name}')"><i class='bx bxs-hot'></i>Alquilar</button>
-                </div>
-              </div>
-            `;
+  <div class="vehiculo">
+    <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
+    <div class="info-vehiculo">
+      <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
+      <p class="descripcion-vehiculo">${vehiculo.description}</p>
+      <p class="precio-vehiculo">Precio: S/ ${vehiculo.precio} / ${vehiculo.minutos} min</p>
+      
+      <div class="cronometro-container" id="cronometro-container-${doc.id}" style="display:none;"></div>
+
+
+      <div class="multiplicador-container" style="display: flex; gap: 10px; margin: 8px 0;">
+        <button class="btn-multi active" data-id="${doc.id}" data-valor="1" onclick="setMultiplicador('${doc.id}', 1)">x1</button>
+        <button class="btn-multi" data-id="${doc.id}" data-valor="2" onclick="setMultiplicador('${doc.id}', 2)">x2</button>
+        <button class="btn-multi" data-id="${doc.id}" data-valor="3" onclick="setMultiplicador('${doc.id}', 3)">x3</button>
+      </div>
+
+      <button class="btn-primary" onclick="mostrarFormularioPago('${doc.id}', ${vehiculo.minutos}, ${vehiculo.precio}, '${vehiculo.name}')"><i class='bx bxs-hot'></i>Alquilar</button>
+    </div>
+  </div>
+`;
+
           });
 
           lista.innerHTML = html;
