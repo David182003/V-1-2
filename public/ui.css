@@ -1,3 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root{
     --background: #ff4800; /* Green */
     --secondary-color: #fadedc; /* Red */
@@ -16,56 +22,9 @@
     --yape:#fda692;
     --background-btn-font-color: rgb(248, 235, 235);
 }   
-.btn-primary{
-    background-color: rgb(248, 235, 235);
-    width: 96%;
-    color:var(--background);
-    border: 1px solid var(--background);
-    padding: 5%;
-    border-radius: 8px;
-    margin-left: 2%;
-    margin-right: 2%;
-}
-#metodo-pago-modal{
-  background-color: var(--secondary-color);
-  width: 100%;
-  padding: 5% 2%;
-  border-radius: 5px;
-  border: none;
-}
-#confirmar-pago-modal{
-    background-color: var(--primary-color);
-    width: 100%;
-    padding: 5% 2%;
-    border: none;
-    color: var(--text-white-color);
-    border-radius: 5px;
-}
-#cerrar-modal{
-    background-color: var(--text-secondary-color);
-    width: 100%;
-    padding: 5% 2%;
-    border: none;
-    color: var(--text-white-color);
-    border-radius: 5px;
-}
-.li{
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(240, 240, 240);
-}
-.container-vehiculos{
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    pad: 0% 2%;
-    align-items: center;
-}
-.titulo-vehiculos {
-    color: var(--text-color);
-    margin: 2% 2%;
-    width: auto;
-}
-.hr-vehiculos{
-    width:75%;
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
+
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: var(--background-white);
+    }

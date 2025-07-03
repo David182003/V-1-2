@@ -10,709 +10,76 @@
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-  <style>
-  /* Modal styles */
-  .modal-bg {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .modal-content {
-    background: #fff;
-    padding: 2em 1.5em;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px #0003;
-    min-width: 250px;
-    text-align: center;
-  }
-  .modal-content select, .modal-content button {
-    margin-top: 1em;
-  }
- .cronometro-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;   /* Centrado vertical */
-  justify-content: center; /* Centrado horizontal */
-  background-color: rgba(7, 7, 7, 0.65); /* Oscurece el fondo */
-  font-size: 40px;
-  font-weight: bold;
-  color: #ffffff;
-  padding-top: 30%;
-  text-align: center;
-  text-shadow: 0 0 15px white;
-  z-index: 10;
-  border-radius: 12px;
-}
-
-
-.vehiculo {
-  position: relative;
-  overflow: hidden;
-}
-
-
-  .btn-multi {
-    background-color: #ffffff;
-    color: rgb(97, 97, 97);
-    border: 1px solid rgb(197, 198, 248);
-
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  .btn-multi:hover {
-    background-color: #c0e3ff;
-  }
-  .btn-multi.active {
-    background-color: #104e87;
-    color: white;
-  }
-  .multiplicador-container{
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-  }
-  /* ==== Trampolín Section Styles ==== */
-#trampolin {
-  padding: 20px;
-  max-width: 900px;
-  background-color: rgba(255, 255, 255, 0.692);
-  text-align: center;
-  margin: auto;
-}
-
-#trampolin h3 {
-  text-align: center;
-  font-size: 26px;
-  background-color: rgba(255, 255, 255, 0);
-  color: #2c3e50;
-}
-
-#trampolin button {
-  background-color:var(--background-btn-font-color);
-  color: var(--background);
-  padding: 10px 20px;
-  border: none;
-  font-weight: bold;
-  border: 1px solid var(--background);
-  border-radius: 8px;
-  width: 100%;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-#trampolin button:hover {
-  background: var(--background);
-  color: white;
-}
-
-#trampolin-cronometros {
-  margin-top: 20px;
-  background-color: ;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
-}
-
-#trampolin-cronometros > div {
-  background: var(--background);
-  border-radius: 16px;
-  box-shadow: none;
-  border: 1px solid #e5e5e6;
- 
-  padding: 15px;
-  border-left: 5px solid #ff0000;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-#trampolin-cronometros > div:hover {
-  transform: translateY(-5px);
-}
-
-#trampolin-cronometros p {
-  margin: 6px 0;
-  font-size: 16px;
-  color: #2c3e50;
-}
-
-</style>
-
-</style>
 </head>
 <body>
   <header>
+    <!-- Menu -->
     <nav>
+      <!-- Opción Home -->
       <button onclick="mostrarSeccion('home')"> 
-    <div class="home-option">
-      <img class="img-home" src="media/Home.webp" alt="">
-    </div>
-    <p class="p-menu">Home</p>
-  </button>
-
-  <button onclick="mostrarSeccion('aplicaciones')">
-    <div class="app-option">
-      <img class="img-app" src="media/Ventas.webp" alt="">
-    </div>
-    <p class="p-menu">Ingresos</p>
-  </button>
-
-  <button onclick="mostrarSeccion('trampolin')">
-    <div class="app-option">
-      <img class="img-app" src="media/fuego-3d.png" alt=""> <!-- Usa tu propia imagen aquí -->
-    </div>
-    <p class="p-menu">Trampolín</p>
-  </button>
-
-  <a href="index.html">
-    <button onclick="logout()">
-      <div class="app-option">
-        <img class="img-app" src="media/exit.webp" alt="">
-      </div>
-      <p class="p-menu">Cerrar Sesión</p>
-    </button>
-  </a>
+        <div class="home-option">
+          <img class="img-home" src="media/Home.webp" alt="Icono Home">
+        </div>
+        <p class="p-menu">Home</p>
+      </button>
+      <!-- Opción Ingresos -->
+      <button onclick="mostrarSeccion('aplicaciones')">
+        <div class="app-option">
+          <img class="img-app" src="media/Ventas.webp" alt="Icono Ingresos">
+        </div>
+        <p class="p-menu">Ingresos</p>
+      </button>
+      <!-- Opción Trampolín -->
+      <button onclick="mostrarSeccion('trampolin')">
+        <div class="app-option">
+          <img class="img-app" src="media/fuego-3d.png" alt="Icono Trampolin">
+        </div>
+        <p class="p-menu">Trampolín</p>
+      </button>
+      <!-- Opción Salir -->
+      <a href="index.html">
+        <button onclick="logout()">
+          <div class="app-option">
+            <img class="img-app" src="media/exit.webp" alt="Icono Salir">
+          </div>
+          <p class="p-menu">Cerrar Sesión</p>
+        </button>
+      </a>
     </nav>
   </header>
-
+  <!-- Datos a cargar desde Firebase  -->
   <main>
-
-
-
     <!-- Sección Home -->
     <section id="home" class="seccion">
-      <!-- <h2>Vehículos Disponibles</h2> -->
-      
       <div id="lista-vehiculos">Cargando vehículos...
       </div>
     </section>
-
+    <!-- Sección Ingresos -->
+    <section id="aplicaciones" class="seccion" style="display: none;">
+      <div style="margin-top: 10px; background: #fff; padding: 20px; border-radius: 20px; max-width: 500px;">
+        <p id="ventas-dia-total" style="text-align: center; margin-bottom: 20px;">Total vendido (Hoy): S/ 0.00</p>
+        <canvas id="grafico-metodo-hoy" width="400" height="200"></canvas>
+        <div style="margin-top: 20px; text-align: center;">
+          <p id="total-yape-hoy" style="font-weight:bold; color:#000000;">Ventas en Yape: S/ 0.00</p>
+          <p id="total-efectivo-hoy" style="font-weight:bold; color:#00bd19;">Ventas en Efectivo: S/ 0.00</p>
+        </div>
+      </div>
+      <div id="ventas-dia-lista">Cargando ventas...</div>
+    </section>
+    <!-- Sección Trampolin -->
     <section id="trampolin" class="seccion" style="display: none; margin-top: 0px;">
-    <div class="container-trampolin">
-      <h3>Trampolín</h3>
-      <!-- Agrega aquí el SVG animado -->
-      <img src="svg/ani.svg" alt="Animación trampolín" style="max-width:350px; width:100%; display:block; margin:0px auto;">
-      <button onclick="mostrarFormularioTrampolin()">Agregar niño al trampolín</button> 
-    </div>
-      
-  <div id="trampolin-cronometros" style="margin-top: 20px;"></div>
-</section>
-
-
- <section id="aplicaciones" class="seccion" style="display: none;">
-
-<div style="margin-top: 10px; background: #fff; padding: 20px; border-radius: 20px; max-width: 500px;">
-   <p id="ventas-dia-total" style="text-align: center; margin-bottom: 20px;">Total vendido (Hoy): S/ 0.00</p>
-  <canvas id="grafico-metodo-hoy" width="400" height="200"></canvas>
-  <div style="margin-top: 20px; text-align: center;">
-    <p id="total-yape-hoy" style="font-weight:bold; color:#000000;">Ventas en Yape: S/ 0.00</p>
-    <p id="total-efectivo-hoy" style="font-weight:bold; color:#00bd19;">Ventas en Efectivo: S/ 0.00</p>
-  </div>
-</div>
-
-<div id="ventas-dia-lista">Cargando ventas...</div>
-</section>
-
-
-
-
-
+      <div class="container-trampolin">
+        <h3>Trampolín</h3>
+        <img src="svg/ani.svg" alt="Animación trampolín" style="max-width:350px; width:100%; display:block; margin:0px auto;">
+        <button onclick="mostrarFormularioTrampolin()">Agregar niño al trampolín</button> 
+      </div>  
+      <div id="trampolin-cronometros" style="margin-top: 20px;"></div>
+    </section>
   </main>
-
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {
-  apiKey: "AIzaSyCwt9dyCf5iF13R2nhar6F2pKIUkT3Om7Q",
-  authDomain: "paguinasweb-14611.firebaseapp.com",
-  projectId: "paguinasweb-14611",
-  storageBucket: "paguinasweb-14611.firebasestorage.app",
-  messagingSenderId: "1083919701171",
-  appId: "1:1083919701171:web:89d0063a1f9e6e357c4cc6"
-};
-
-firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    function mostrarSeccion(id) {
-      document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-   if (id === 'aplicaciones') {
-  const hoy = new Date();
-  const yyyy = hoy.getFullYear();
-  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-  const dd = String(hoy.getDate()).padStart(2, '0');
-  const fechaActual = `${yyyy}-${mm}-${dd}`;
-
-  cargarVentasPorFecha(fechaActual);
-  calcularVentasHoyPorMetodo();
-}// 👇 Si se abre trampolín, recargar cronómetros desde localStorage
-  if (id === 'trampolin') {
-    const contenedor = document.getElementById('trampolin-cronometros');
-    contenedor.innerHTML = ''; // limpiar antes de volver a cargar
-
-    for (let key in localStorage) {
-  if (key.startsWith('trampolin_')) {
-    if (!document.getElementById(key.replace('trampolin_', 'trampolin-'))) {
-      const datos = JSON.parse(localStorage.getItem(key));
-      if (datos && datos.fin > Date.now()) {
-        renderizarCronometroTrampolin(datos);
-      }
-    }
-  }
-}
-
-  }
-}
-
-const multiplicadores = {}; // { vehiculoId: 1, 2, 3 }
-
-function setMultiplicador(vehiculoId, valor) {
-  multiplicadores[vehiculoId] = valor;
-
-  // Estilo visual: marcar botón activo
-  const botones = document.querySelectorAll(`.btn-multi[data-id="${vehiculoId}"]`);
-  botones.forEach(btn => {
-    btn.classList.remove('active');
-    if (parseInt(btn.dataset.valor) === valor) {
-      btn.classList.add('active');
-    }
-  });
-}
-    
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = 'index.html';
-      });
-    }
-
-    function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
-      // Crear modal
-      const modal = document.createElement('div');
-      modal.className = 'modal-bg';
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h3>Selecciona método de pago</h3>
-          <select id="metodo-pago-modal">
-            <option value="yape">Yape</option>
-            <option value="efectivo">Efectivo</option>
-          </select>
-          <br>
-          <button id="confirmar-pago-modal">Confirmar</button>
-          <br>
-          <button id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
-        </div>
-      `;
-      document.body.appendChild(modal);
-
-     document.getElementById('confirmar-pago-modal').onclick = function() {
-  const metodoPago = document.getElementById('metodo-pago-modal').value;
-  document.body.removeChild(modal);
-
-  // Obtener multiplicador seleccionado
-  const multi = multiplicadores[vehiculoId] || 1;
-  const minutosMultiplicados = minutos * multi;
-  const precioMultiplicado = precio * multi;
-
-  mostrarCronometro(vehiculoId, minutosMultiplicados, precioMultiplicado, nombreVehiculo, metodoPago);
-  };
-
-  document.getElementById('cerrar-modal').onclick = function() {
-    document.body.removeChild(modal);
-  };
-}
-
-    function mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago) {
-      const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
-      let tiempo = minutos * 60;
-      const ahora = Date.now();
-      const fin = ahora + tiempo * 1000;
-
-      // Guardar en localStorage
-      localStorage.setItem(`cronometro_${vehiculoId}`, JSON.stringify({
-        fin, vehiculoId, minutos, precio, nombreVehiculo, metodoPago
-      }));
-
-      iniciarCronometro(vehiculoId);
-    }
-
-    function iniciarCronometro(vehiculoId) {
-      const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
-      const data = JSON.parse(localStorage.getItem(`cronometro_${vehiculoId}`));
-      if (!data) return;
-
-      cronometroDiv.style.display = 'block';
-
-      function tick() {
-  const ahora = Date.now();
-  let tiempoRestante = Math.floor((data.fin - ahora) / 1000);
-  if (tiempoRestante < 0) tiempoRestante = 0;
-
-  const tiempoTotal = data.minutos * 60;
-  const porcentaje = (tiempoRestante / tiempoTotal) * 100;
-
-  const min = Math.floor(tiempoRestante / 60);
-  const seg = tiempoRestante % 60;
-  cronometroDiv.textContent = ` ${min}:${seg < 10 ? '0' : ''}${seg}`;
-
-  // Cambiar color y aplicar efecto glow según el porcentaje
-if (porcentaje >= 70) {
-  cronometroDiv.style.color = '#2196F3'; // Azul
-  cronometroDiv.style.textShadow = '0 0 10px #2196F3, 0 0 20px #2196F3, 0 0 30px #2196F3';
-} else if (porcentaje >= 30) {
-  cronometroDiv.style.color = '#FFEB3B'; // Amarillo
-  cronometroDiv.style.textShadow = '0 0 10px #FFEB3B, 0 0 20px #FFEB3B, 0 0 30px #FFEB3B';
-} else {
-  cronometroDiv.style.color = '#f44336'; // Rojo
-  cronometroDiv.style.textShadow = '0 0 10px #f44336, 0 0 20px #f44336, 0 0 30px #f44336';
-}
-
-
-  if (tiempoRestante <= 0) {
-    clearInterval(window[`intervalo_${vehiculoId}`]);
-    cronometroDiv.textContent = "¡Alquiler finalizado!";
-    cronometroDiv.style.color = "#4CAF50"; // Verde al finalizar
-    guardarVenta(data.vehiculoId, data.metodoPago, data.precio, data.nombreVehiculo, data.minutos);
-    localStorage.removeItem(`cronometro_${vehiculoId}`);
-
-    setTimeout(() => {
-      cronometroDiv.textContent = '';
-      cronometroDiv.style.display = 'none';
-    }, 2000);
-  }
-}
-
-
-      if (window[`intervalo_${vehiculoId}`]) clearInterval(window[`intervalo_${vehiculoId}`]);
-      window[`intervalo_${vehiculoId}`] = setInterval(tick, 1000);
-      tick();
-    }
-
-    function guardarVenta(vehiculoId, metodoPago, precio, nombreVehiculo, minutos) {
-      db.collection('ventas').add({
-        vehiculoId,
-        nombreVehiculo,
-        metodoPago,
-        precio,
-        minutos,
-        fecha: new Date()
-      }).then(() => {
-        alert('Venta guardada correctamente');
-      }).catch(err => {
-        alert('Error al guardar la venta: ' + err.message);
-      });
-    }
-
-function cargarVentasPorFecha(fechaStr) {
-  const contenedorVentas = document.getElementById('ventas-dia-lista');
-  const totalTexto = document.getElementById('ventas-dia-total');
-  contenedorVentas.innerHTML = 'Cargando ventas...';
-  totalTexto.textContent = 'Total vendido ese día: S/ 0.00';
-
-  const [anio, mes, dia] = fechaStr.split('-').map(Number);
-
-  // Creamos rangos de la fecha seleccionada (00:00 a 23:59)
-  const desde = new Date(anio, mes - 1, dia, 0, 0, 0);
-  const hasta = new Date(anio, mes - 1, dia, 23, 59, 59);
-
-  // Convertimos a Timestamp de Firebase
-  const Timestamp = firebase.firestore.Timestamp;
-  const desdeTS = Timestamp.fromDate(desde);
-  const hastaTS = Timestamp.fromDate(hasta);
-
-  db.collection('ventas')
-    .where('fecha', '>=', desdeTS)
-    .where('fecha', '<=', hastaTS)
-    .orderBy('fecha', 'asc')
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        contenedorVentas.innerHTML = '<p>No hay ventas en esa fecha.</p>';
-        return;
-      }
-
-      let html = '<ul style="list-style:none; padding:0;">';
-      let total = 0;
-
-      snapshot.forEach(doc => {
-        const venta = doc.data();
-        const fecha = new Date(venta.fecha.seconds * 1000);
-        total += parseFloat(venta.precio);
-
-       html += `
-  <div class="venta-card">
-    <div class="venta-item">
-      <p><strong>Vehículo:</strong> ${venta.nombreVehiculo}</p>
-      <span class="venta-metodo ${venta.metodoPago.toLowerCase()}">${venta.metodoPago}</span></p>
-    </div>
-    <div class="venta-itemm">
-    <p><strong>Precio:</strong> S/ ${venta.precio}</p>
-    <p><strong>Fecha:</strong> ${fecha.toLocaleString()}</p>
-    </div>
-  </div>
-`;
-
-      });
-
-      html += '</ul>';
-      contenedorVentas.innerHTML = html;
-      totalTexto.textContent = `Total Generado (Hoy): S/ ${total.toFixed(2)}`;
-    })
-    .catch(err => {
-      contenedorVentas.innerHTML = `<p>Error: ${err.message}</p>`;
-    });
-}
-
-let graficoMetodoHoy;
-
-function calcularVentasHoyPorMetodo() {
-  const yapeTexto = document.getElementById('total-yape-hoy');
-  const efectivoTexto = document.getElementById('total-efectivo-hoy');
-
-  const hoy = new Date();
-  const yyyy = hoy.getFullYear();
-  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-  const dd = String(hoy.getDate()).padStart(2, '0');
-  const [anio, mes, dia] = [`${yyyy}`, `${mm}`, `${dd}`];
-
-  const desde = new Date(anio, mes - 1, dia, 0, 0, 0);
-  const hasta = new Date(anio, mes - 1, dia, 23, 59, 59);
-
-  const desdeTS = firebase.firestore.Timestamp.fromDate(desde);
-  const hastaTS = firebase.firestore.Timestamp.fromDate(hasta);
-
-  db.collection('ventas')
-    .where('fecha', '>=', desdeTS)
-    .where('fecha', '<=', hastaTS)
-    .get()
-    .then(snapshot => {
-      let totalYape = 0;
-      let totalEfectivo = 0;
-
-      snapshot.forEach(doc => {
-        const venta = doc.data();
-        const metodo = venta.metodoPago.toLowerCase();
-        const monto = parseFloat(venta.precio);
-        if (metodo === 'yape') totalYape += monto;
-        else if (metodo === 'efectivo') totalEfectivo += monto;
-      });
-
-      yapeTexto.textContent = `Ventas en Yape: S/ ${totalYape.toFixed(2)}`;
-      yapeTexto.style.color = '#690083'; // Color Yape
-      yapeTexto.style.marginBottom = '10px';
-      efectivoTexto.textContent = `Ventas en Efectivo: S/ ${totalEfectivo.toFixed(2)}`;
-      efectivoTexto.style.color = '#009614'; // Color Efectivo
-
-      const ctx = document.getElementById('grafico-metodo-hoy').getContext('2d');
-      if (graficoMetodoHoy) graficoMetodoHoy.destroy();
-
-      graficoMetodoHoy = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Yape', 'Efectivo'],
-          datasets: [{
-            label: 'Ventas',
-            data: [totalYape, totalEfectivo],
-            backgroundColor: ['#690083', '#009614'],
-            borderColor: '#ffffff',
-            borderWidth: 2,
-            hoverOffset: 10
-          }]
-        },
-        options: {
-          responsive: true,
-          cutout: '60%',
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                font: {
-                  size: 14
-                },
-                color: '#333'
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: (context) => {
-                  const label = context.label || '';
-                  const value = context.raw || 0;
-                  return `${label}: S/ ${value.toFixed(2)}`;
-                }
-              }
-            }
-          }
-        }
-      });
-    })
-    .catch(err => {
-      yapeTexto.textContent = 'Error al cargar Yape';
-      efectivoTexto.textContent = 'Error al cargar Efectivo';
-      console.error('Error al cargar ventas por método hoy:', err);
-    });
-}
-
-    function cargarVehiculos() {
-      const lista = document.getElementById('lista-vehiculos');
-      lista.innerHTML = 'Cargando...';
-
-      db.collection('vehiculos').where("status", "==", "available").get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            lista.innerHTML = '<p>No hay vehículos disponibles.</p>';
-            return;
-          }
-
-          let html = '';
-          snapshot.forEach(doc => {
-            const vehiculo = doc.data();
-            html += `
-  <div class="vehiculo">
-    <img class="img-producto" src="${vehiculo.imageUrl}" alt="${vehiculo.name}" />
-    <div class="info-vehiculo">
-      <h3 class="nombre-vehiculo">${vehiculo.name}</h3>
-      <p class="descripcion-vehiculo">${vehiculo.description}</p>
-      <p class="precio-vehiculo">Precio: S/ ${vehiculo.precio} / ${vehiculo.minutos} min</p>
-      
-      <div class="cronometro-container" id="cronometro-container-${doc.id}" style="display:none;"></div>
-
-
-      <div class="multiplicador-container" style="display: flex; gap: 10px; margin: 8px 0;">
-        <button class="btn-multi active" data-id="${doc.id}" data-valor="1" onclick="setMultiplicador('${doc.id}', 1)">x1</button>
-        <button class="btn-multi" data-id="${doc.id}" data-valor="2" onclick="setMultiplicador('${doc.id}', 2)">x2</button>
-        <button class="btn-multi" data-id="${doc.id}" data-valor="3" onclick="setMultiplicador('${doc.id}', 3)">x3</button>
-      </div>
-
-      <button class="btn-primary" onclick="mostrarFormularioPago('${doc.id}', ${vehiculo.minutos}, ${vehiculo.precio}, '${vehiculo.name}')"><i class='bx bxs-hot'></i>Alquilar</button>
-    </div>
-  </div>
-`;
-
-          });
-
-          lista.innerHTML = html;
-
-          // Reanudar cronómetros activos
-          snapshot.forEach(doc => {
-            if (localStorage.getItem(`cronometro_${doc.id}`)) {
-              iniciarCronometro(doc.id);
-            }
-          });
-        })
-        .catch(error => {
-          lista.innerHTML = `<p>Error cargando vehículos: ${error.message}</p>`;
-        });
-    }
-    cargarVehiculos();
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = 'index.html';
-      } else {
-        cargarVehiculos();
-      }
-    });
-
-    function mostrarFormularioTrampolin() {
-  const modal = document.createElement('div');
-  modal.className = 'modal-bg';
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3>Agregar niño al trampolín</h3>
-      <input type="text" id="nombre-nino" placeholder="Nombre del niño" />
-      <br>
-      <select id="metodo-pago-trampolin">
-        <option value="yape">Yape</option>
-        <option value="efectivo">Efectivo</option>
-      </select>
-      <br>
-      <button onclick="iniciarTrampolin()">Iniciar</button>
-      <br>
-      <button onclick="document.body.removeChild(this.parentNode.parentNode)">Cancelar</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-function iniciarTrampolin() {
-  const nombre = document.getElementById('nombre-nino').value.trim();
-  const metodoPago = document.getElementById('metodo-pago-trampolin').value;
-
-  if (!nombre) return alert('Ingresa el nombre del niño');
-
-  const id = Date.now(); // ID único
-  const minutos = 20;
-  const precio = 5;
-  const fin = Date.now() + minutos * 60 * 1000;
-
-  const datos = { id, nombre, metodoPago, fin, minutos, precio };
-  localStorage.setItem(`trampolin_${id}`, JSON.stringify(datos));
-
-  document.body.removeChild(document.querySelector('.modal-bg'));
-  renderizarCronometroTrampolin(datos);
-}
-
-function renderizarCronometroTrampolin(datos) {
-  const contenedor = document.getElementById('trampolin-cronometros');
-
-  const div = document.createElement('div');
-  div.id = `trampolin-${datos.id}`;
-  div.style = `
-    background: #fff; padding: 1em; border-radius: 10px; 
-    margin-bottom: 10px; text-align: left;
-  `;
-
-  const tiempoText = document.createElement('p');
-  const nombreText = document.createElement('p');
-  nombreText.textContent = `👦 Niño: ${datos.nombre}`;
-  div.appendChild(nombreText);
-  div.appendChild(tiempoText);
-  contenedor.appendChild(div);
-
-  function tick() {
-    const ahora = Date.now();
-    let restante = Math.floor((datos.fin - ahora) / 1000);
-    if (restante < 0) restante = 0;
-
-    const min = Math.floor(restante / 60);
-    const seg = restante % 60;
-    tiempoText.textContent = `⏱ Tiempo restante: ${min}:${seg < 10 ? '0' : ''}${seg}`;
-
-    if (restante <= 0) {
-      clearInterval(intervalo);
-      tiempoText.textContent = "⏰ Tiempo terminado";
-      guardarVenta('trampolin', datos.metodoPago, datos.precio, `Trampolín - ${datos.nombre}`, datos.minutos);
-      localStorage.removeItem(`trampolin_${datos.id}`);
-      setTimeout(() => div.remove(), 3000);
-    }
-  }
-
-  const intervalo = setInterval(tick, 1000);
-  tick();
-}
-
- 
-document.getElementById('filtro-fecha').addEventListener('change', function () {
-  const nuevaFecha = this.value;
-  if (nuevaFecha) {
-    cargarVentasPorFecha(nuevaFecha);
-  }
-});
-
-
-  </script>
+  <script src="js/JSEmpleado.js"></script>
 </body>
 </html>

@@ -8,7 +8,6 @@
           docEl.requestFullscreen().catch(() => {});
         }
       }, { once: true });
-
       setTimeout(() => {
         splash.classList.add('fade-out');
         setTimeout(() => {
