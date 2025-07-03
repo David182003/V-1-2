@@ -176,6 +176,5 @@ body {
   background-color: red;
   padding: 10px;
   background: var(--background-white);
-  border: 1px solid #e5e5e6;
-  border-radius: 10px;
+  border: 1px solid #e5e5e6;    border-radius: 10px;
 }

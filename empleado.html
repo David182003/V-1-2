@@ -113,22 +113,26 @@
 }
 
 #trampolin button:hover {
-  background: #0d3c6a;
+  background: var(--background);
+  color: white;
 }
 
 #trampolin-cronometros {
   margin-top: 20px;
+  background-color: ;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
 }
 
 #trampolin-cronometros > div {
-  background: #ffffff;
+  background: var(--background);
   border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+  border: 1px solid #e5e5e6;
+ 
   padding: 15px;
-  border-left: 5px solid #000000;
+  border-left: 5px solid #ff0000;
   position: relative;
   transition: transform 0.3s ease;
 }
@@ -650,7 +654,7 @@ function iniciarTrampolin() {
   if (!nombre) return alert('Ingresa el nombre del niño');
 
   const id = Date.now(); // ID único
-  const minutos = 1;
+  const minutos = 20;
   const precio = 5;
   const fin = Date.now() + minutos * 60 * 1000;
 
@@ -668,7 +672,7 @@ function renderizarCronometroTrampolin(datos) {
   div.id = `trampolin-${datos.id}`;
   div.style = `
     background: #fff; padding: 1em; border-radius: 10px; 
-    margin-bottom: 10px; box-shadow: 0 0 10px #ccc;
+    margin-bottom: 10px; text-align: left;
   `;
 
   const tiempoText = document.createElement('p');
