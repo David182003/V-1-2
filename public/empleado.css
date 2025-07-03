@@ -119,9 +119,11 @@ nav button {
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.4);
     display: flex;
-    align-items: center;
+    align-items: start;
+    padding-top: 20%;
     justify-content: center;
     z-index: 1000;
+    
   }
   .modal-content {
     background: #fff;
@@ -253,28 +255,22 @@ nav button {
     margin-left: 2%;
     margin-right: 2%;
 }
+.btn-secondary{
+    background-color: var(--text-secondary-color);
+    width: 96%;
+    color:var(--text-white-color);
+    border: 1px solid var(--text-secondary-color);
+    padding: 5%;
+    border-radius: 8px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
 #metodo-pago-modal{
   background-color: var(--secondary-color);
-  width: 100%;
-  padding: 5% 2%;
+  width: 96%;
+  padding: 5%;
   border-radius: 5px;
   border: none;
-}
-#confirmar-pago-modal{
-    background-color: var(--primary-color);
-    width: 100%;
-    padding: 5% 2%;
-    border: none;
-    color: var(--text-white-color);
-    border-radius: 5px;
-}
-#cerrar-modal{
-    background-color: var(--text-secondary-color);
-    width: 100%;
-    padding: 5% 2%;
-    border: none;
-    color: var(--text-white-color);
-    border-radius: 5px;
 }
 .li{
     background-color: rgb(255, 255, 255);
@@ -360,4 +356,24 @@ nav button {
   max-width: 350px;
   display: block;
   margin-bottom: 10px;
+}
+#nombre-nino{
+  width: 96%;
+   padding: 5%;
+  margin-top: 10px;
+  margin-left: 2%;
+    margin-right: 2%;
+  border: 0.2px solid rgb(206, 193, 193);
+  border-radius: 4px;
+  
+}
+#metodo-pago-trampolin{
+ width: 96%;
+  padding: 5%;
+  margin-top: 10px;
+  margin-left: 2%;
+    margin-right: 2%;
+  background-color: var(--secondary-color);
+  border: 0.2px solid rgb(206, 193, 193);
+  border-radius: 4px;
 }

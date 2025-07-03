@@ -74,9 +74,9 @@ function setMultiplicador(vehiculoId, valor) {
             <option value="efectivo">Efectivo</option>
           </select>
           <br>
-          <button id="confirmar-pago-modal">Confirmar</button>
+          <button class="btn-primary" id="confirmar-pago-modal">Confirmar</button>
           <br>
-          <button id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
+          <button class="btn-secondary" id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
         </div>
       `;
       document.body.appendChild(modal);
@@ -401,9 +401,9 @@ function calcularVentasHoyPorMetodo() {
         <option value="efectivo">Efectivo</option>
       </select>
       <br>
-      <button onclick="iniciarTrampolin()">Iniciar</button>
+      <button class="btn-primary" onclick="iniciarTrampolin()">Iniciar</button>
       <br>
-      <button onclick="document.body.removeChild(this.parentNode.parentNode)">Cancelar</button>
+      <button class="btn-secondary" onclick="document.body.removeChild(this.parentNode.parentNode)">Cancelar</button>
     </div>
   `;
   document.body.appendChild(modal);
