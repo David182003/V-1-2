@@ -353,3 +353,11 @@ nav button {
   background: var(--background-white);
   border: 1px solid #e5e5e6;    border-radius: 10px;
 }
+.img-trampolinn {
+  width: 100%;
+  height: auto;
+  background-color: rgb(255, 255, 255);
+  max-width: 350px;
+  display: block;
+  margin-bottom: 10px;
+}
