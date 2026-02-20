@@ -1,4 +1,4 @@
- // Configuración de Firebase
+// Configuración de Firebase
  const firebaseConfig = {
   apiKey: "AIzaSyCwt9dyCf5iF13R2nhar6F2pKIUkT3Om7Q",
   authDomain: "paguinasweb-14611.firebaseapp.com",
@@ -63,42 +63,76 @@ function setMultiplicador(vehiculoId, valor) {
       });
     }
 
-    function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
-      // Crear modal
-      const modal = document.createElement('div');
-      modal.className = 'modal-bg';
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h3>Selecciona método de pago</h3>
-          <select id="metodo-pago-modal">
-            <option value="yape">Yape</option>
-            <option value="efectivo">Efectivo</option>
-          </select>
-          <br>
-          <button class="btn-primary" id="confirmar-pago-modal">Confirmar</button>
-          <br>
-          <button class="btn-secondary" id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
-        </div>
-      `;
-      document.body.appendChild(modal);
+   
+// Card animacion para Formulario de Pago
+function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
 
-     document.getElementById('confirmar-pago-modal').onclick = function() {
-  const metodoPago = document.getElementById('metodo-pago-modal').value;
-  document.body.removeChild(modal);
+  // Crear modal
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
 
-  // Obtener multiplicador seleccionado
-  const multi = multiplicadores[vehiculoId] || 1;
-  const minutosMultiplicados = minutos * multi;
-  const precioMultiplicado = precio * multi;
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="brs">
+        <div class="br"></div>
+       </div>
+      <h3>Selecciona método de pago</h3>
+      <select id="metodo-pago-modal">
+        <option value="yape">Yape</option>
+        <option value="efectivo">Efectivo</option>
+      </select>
+      <br>
+      <button class="btn-primary" id="confirmar-pago-modal">Confirmar</button>
+      <br>
+      <button class="btn-secondary" id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
+    </div>
+  `;
 
-  mostrarCronometro(vehiculoId, minutosMultiplicados, precioMultiplicado, nombreVehiculo, metodoPago);
+  // Insertar primero en el DOM
+  document.body.appendChild(modal);
+
+  // Activar animación (sube desde abajo)
+  setTimeout(() => {
+    modal.classList.add('show');
+  }, 10);
+
+  // Confirmar pago
+  modal.querySelector('#confirmar-pago-modal').onclick = function () {
+    const metodoPago = modal.querySelector('#metodo-pago-modal').value;
+
+    // Animación de salida
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+
+    setTimeout(() => {
+      modal.remove();
+
+      // Obtener multiplicador seleccionado
+      const multi = multiplicadores[vehiculoId] || 1;
+      const minutosMultiplicados = minutos * multi;
+      const precioMultiplicado = precio * multi;
+
+      mostrarCronometro(
+        vehiculoId,
+        minutosMultiplicados,
+        precioMultiplicado,
+        nombreVehiculo,
+        metodoPago
+      );
+
+    }, 400);
   };
 
-  document.getElementById('cerrar-modal').onclick = function() {
-    document.body.removeChild(modal);
+  // Cerrar modal
+  modal.querySelector('#cerrar-modal').onclick = function () {
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+
+    setTimeout(() => {
+      modal.remove();
+    }, 400);
   };
 }
-
     function mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago) {
       const cronometroDiv = document.getElementById(`cronometro-container-${vehiculoId}`);
       let tiempo = minutos * 60;
@@ -407,6 +441,8 @@ function calcularVentasHoyPorMetodo() {
       <button class="btn-secondary" onclick="document.body.removeChild(this.parentNode.parentNode)">Cancelar</button>
     </div>
   `;
+  modal.classList.add('show'); // Mostrar el modal con animación
+
   document.body.appendChild(modal);
 }
 
