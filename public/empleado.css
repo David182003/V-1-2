@@ -418,3 +418,50 @@ nav button {
   border: 0.2px solid rgb(206, 193, 193);
   border-radius: 4px;
 }
+
+.metodo-pago-opciones {
+  justify-content: center;
+  margin: 15px 0;
+  width: 100%;
+  height: auto;
+}
+
+.opcion-pago {
+  display: flex;
+  margin-bottom: 2%;
+  align-items: center;
+  width: 100%;
+  padding: 5% 20px;
+  border: 2px solid #e5e5e6;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.opcion-pago input[type="radio"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+.yape-content{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 90%;
+}
+.yape-logo{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+.opcion-pago:hover {
+  border-color: #0044ff;
+  background-color: #f0f8ff;
+}
+
+.opcion-pago input[type="radio"]:checked + label {
+  color: #007bff;
+  font-weight: bold;
+
+}

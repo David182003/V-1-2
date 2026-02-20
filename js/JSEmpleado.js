@@ -76,11 +76,23 @@ function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
       <div class="brs">
         <div class="br"></div>
        </div>
-      <h3>Selecciona método de pago</h3>
-      <select id="metodo-pago-modal">
-        <option value="yape">Yape</option>
-        <option value="efectivo">Efectivo</option>
-      </select>
+      <h3>Método de pago</h3>
+      <div class="metodo-pago-opciones">
+        <label class="opcion-pago">
+          <div class="yape-content">
+            <img class="yape-logo" src="https://marketingperu.beglobal.biz/wp-content/uploads/2024/11/logo-yape-sin-fondo-png.png" alt="Yape" class="yape-logo">
+            <span class="yape-label">Yape</span>
+          </div>
+          <input class="yape-input" type="radio" name="metodo-pago" value="yape">
+        </label>
+        <label class="opcion-pago">
+          <div class="yape-content">
+            <img width="38" height="38" src="https://cdn-icons-png.flaticon.com/512/7448/7448246.png" alt="money-bag"/>
+            <span class="yape-label">Yape</span>
+          </div>
+          <input type="radio" name="metodo-pago" value="efectivo">
+        </label>
+      </div>
       <br>
       <button class="btn-primary" id="confirmar-pago-modal">Confirmar</button>
       <br>
@@ -98,7 +110,12 @@ function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
 
   // Confirmar pago
   modal.querySelector('#confirmar-pago-modal').onclick = function () {
-    const metodoPago = modal.querySelector('#metodo-pago-modal').value;
+    const metodoPago = modal.querySelector('input[name="metodo-pago"]:checked')?.value;
+
+    if (!metodoPago) {
+      alert('Por favor selecciona un método de pago');
+      return;
+    }
 
     // Animación de salida
     modal.classList.remove('show');
