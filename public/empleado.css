@@ -3,12 +3,13 @@ header {
       background-color: var(--background-white);
       color: white;
       padding: 1em;
-      box-shadow: 0 0 10px rgba(0, 26, 255, 0.356);
+      /* box-shadow: 0 0 10px rgba(0, 26, 255, 0.356); */
       bottom: 0px;
+      border-top: 1px solid #e5e5e6;
       left: 0px;
       right: 0px;
       display: flex;
-      padding: 0px;
+      padding: 5px 0px;
       z-index: 100;
       position: fixed;
       justify-content: space-between;
@@ -161,7 +162,7 @@ nav button {
   background-color: rgba(219, 230, 255, 0.548);
   width: 80px;
   border-radius: 12px;
-  height: 70%;
+  height: 50%;
 }
 /* cuando aparece */
 .modal-bg.show .modal-content {
