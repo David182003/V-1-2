@@ -95,8 +95,6 @@ function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
       </div>
       <br>
       <button class="btn-primary" id="confirmar-pago-modal">Confirmar</button>
-      <br>
-      <button class="btn-secondary" id="cerrar-modal" style="margin-top:1em;">Cancelar</button>
     </div>
   `;
 
@@ -140,14 +138,16 @@ function mostrarFormularioPago(vehiculoId, minutos, precio, nombreVehiculo) {
     }, 400);
   };
 
-  // Cerrar modal
-  modal.querySelector('#cerrar-modal').onclick = function () {
-    modal.classList.remove('show');
-    modal.classList.add('hide');
+  // Cerrar modal al hacer clic en el fondo (no en el contenido)
+  modal.onclick = function (event) {
+    if (event.target === modal) {
+      modal.classList.remove('show');
+      modal.classList.add('hide');
 
-    setTimeout(() => {
-      modal.remove();
-    }, 400);
+      setTimeout(() => {
+        modal.remove();
+      }, 400);
+    }
   };
 }
     function mostrarCronometro(vehiculoId, minutos, precio, nombreVehiculo, metodoPago) {
