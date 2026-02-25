@@ -8,6 +8,25 @@
   appId: "1:1083919701171:web:89d0063a1f9e6e357c4cc6"
 };
 
+function pantallaCompleta() {
+    let elemento = document.documentElement;
+
+    if (elemento.requestFullscreen) {
+        elemento.requestFullscreen();
+    } else if (elemento.webkitRequestFullscreen) { 
+        elemento.webkitRequestFullscreen();
+    } else if (elemento.msRequestFullscreen) { 
+        elemento.msRequestFullscreen();
+    }
+}
+
+function salirPantallaCompleta() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+}
+
+
 firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
